@@ -40,16 +40,13 @@ double	Polynomial::getCoefficient(int exponent) const
 
 int	Polynomial::getDegree(void) const
 {
-	int												degree;
-	std::map<int, double>::const_iterator			it;
+	int	degree;
 
 	degree = 0;
-	it = this->_terms.begin();
-	while (it != this->_terms.end())
+	for (const auto &term : this->_terms)
 	{
-		if (std::abs(it->second) > 1e-10 && it->first > degree)
-			degree = it->first;
-		++it;
+		if (std::abs(term.second) > 1e-10 && term.first > degree)
+			degree = term.first;
 	}
 	return (degree);
 }
@@ -60,9 +57,8 @@ void	Polynomial::reduce(void)
 
 std::string	Polynomial::toReducedForm(void) const
 {
-	std::ostringstream						oss;
-	bool									first;
-	std::map<int, double>::const_iterator	it;
+	std::ostringstream	oss;
+	bool				first;
 
 	first = true;
 	if (this->_terms.empty())
@@ -70,11 +66,10 @@ std::string	Polynomial::toReducedForm(void) const
 		oss << "0 = 0";
 		return (oss.str());
 	}
-	it = this->_terms.begin();
-	while (it != this->_terms.end())
+	for (const auto &term : this->_terms)
 	{
-		double	coef = it->second;
-		int		exp = it->first;
+		double	coef = term.second;
+		int		exp = term.first;
 
 		if (std::abs(coef) < 1e-10)
 			coef = 0;
@@ -90,7 +85,6 @@ std::string	Polynomial::toReducedForm(void) const
 			else
 				oss << " - " << -coef << " * X^" << exp;
 		}
-		++it;
 	}
 	if (first)
 		oss << "0";
@@ -100,14 +94,9 @@ std::string	Polynomial::toReducedForm(void) const
 
 Polynomial	Polynomial::operator-(const Polynomial &obj) const
 {
-	Polynomial									result(*this);
-	std::map<int, double>::const_iterator		it;
+	Polynomial	result(*this);
 
-	it = obj._terms.begin();
-	while (it != obj._terms.end())
-	{
-		result._terms[it->first] -= it->second;
-		++it;
-	}
+	for (const auto &term : obj._terms)
+		result._terms[term.first] -= term.second;
 	return (result);
 }

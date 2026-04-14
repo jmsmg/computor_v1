@@ -50,10 +50,10 @@ static std::string	removeSpaces(const std::string &str)
 {
 	std::string	result;
 
-	for (size_t i = 0; i < str.length(); i++)
+	for (char c : str)
 	{
-		if (str[i] != ' ' && str[i] != '\t')
-			result += str[i];
+		if (c != ' ' && c != '\t')
+			result += c;
 	}
 	return (result);
 }
@@ -100,14 +100,12 @@ Polynomial	Parser::_parseSide(const std::string &side)
 	std::vector<std::string>	terms;
 	std::string					current;
 	bool						firstChar;
-	size_t						i;
 
 	s = trim(side);
 	if (s.empty())
 		return (poly);
 	firstChar = true;
-	i = 0;
-	while (i < s.length())
+	for (size_t i = 0; i < s.length(); ++i)
 	{
 		char	c = s[i];
 
@@ -126,17 +124,16 @@ Polynomial	Parser::_parseSide(const std::string &side)
 			if (c != ' ' && c != '\t')
 				firstChar = false;
 		}
-		++i;
 	}
 	std::string	t = trim(current);
 	if (!t.empty())
 		terms.push_back(t);
-	for (size_t j = 0; j < terms.size(); j++)
+	for (const auto &term : terms)
 	{
 		int		exp;
 		double	coef;
 
-		this->_parseTerm(terms[j], exp, coef);
+		this->_parseTerm(term, exp, coef);
 		poly.setTerm(exp, coef);
 	}
 	return (poly);
