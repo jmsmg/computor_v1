@@ -34,7 +34,10 @@ def solve_degree2(terms):
         print(min(x1, x2))
     elif discriminant == 0:
         print("Discriminant is zero, the solution is:")
-        print(-b / (2 * a))
+        result = -b / (2 * a)
+        if result == 0:
+            result = 0
+        print(result)
     else:
         sqrt_d = ft_sqrt(-discriminant)
         real_part = -b / (2 * a)
@@ -50,7 +53,10 @@ def solve_degree1(terms):
     b = terms.get(1, 0.0)
     c = terms.get(0, 0.0)
     print("The solution is:")
-    print(-c / b)
+    result = -c / b
+    if result == 0:
+        result = 0
+    print(result)
 
 
 def solve_degree0(terms):
